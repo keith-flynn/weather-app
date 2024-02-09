@@ -1,5 +1,9 @@
+'use client'
+
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 // http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
@@ -62,6 +66,28 @@ type CityInfo = {
 
 
 export default function Home() {
+  const { isLoading, error, data } = useQuery<WeatherData>(
+    "repoData", 
+    async () => {
+      const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=cincinnati&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=2`);  // /data/2.5/forecast?q=${place}&appid=
+
+      return data;
+    }
+    // queryFn: () =>
+    //   fetch('http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56').then((res) =>
+    //     res.json(),
+    //  ),
+  );
+
+  console.log("data", data?.city.country)
+
+  if (isLoading) 
+    return (
+      <div className="flex items-center min-h-screen justify-center">
+        <p className="animate-bounce">Loading...</p>
+      </div>
+    );
+
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar />
