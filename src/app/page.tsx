@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
+import Container from "@/components/Container";
+import { convertKelvinToFahrenheit } from "@/utils/convertKelvinToFahrenheit";
 
 // http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
@@ -102,7 +104,28 @@ export default function Home() {
               <p>{format(parseISO(firstData?.dt_txt ??''), "EEEE")} </p>
               <p className="text-lg">({format(parseISO(firstData?.dt_txt ??''), "dd.MM.yyyy")})</p>
             </h2>
-            <div></div>
+            <Container className="gap-10 px-6 items-center">
+              <div className="flex flex-col px-4">
+                <span className="text-5xl">
+                  {convertKelvinToFahrenheit(firstData?.main.temp ?? 0)}°
+                </span>
+                <p className="text-xs space-x-1 whitespace-nowrap">
+                  <span>Feels like</span>
+                  <span>
+                  {convertKelvinToFahrenheit(firstData?.main.feels_like ?? 0)}°
+                  </span>
+                </p>
+                <p className="text-xs space-x-2">
+                  <span>
+                    {convertKelvinToFahrenheit(firstData?.main.temp_min ?? 0)}°↓{" "}
+                  </span>
+                  <span>
+                    {" "}
+                    {convertKelvinToFahrenheit(firstData?.main.temp_max ?? 0)}°↑
+                  </span>
+                </p>
+              </div>
+            </Container>
           </div>
         </section>
 
