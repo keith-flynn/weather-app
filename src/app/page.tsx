@@ -72,7 +72,7 @@ export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>(
     "repoData", 
     async () => {
-      const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=cincinnati&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=2`);  // /data/2.5/forecast?q=${place}&appid=
+      const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=cincinnati&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`);  // /data/2.5/forecast?q=${place}&appid=
 
       return data;
     }
@@ -123,6 +123,18 @@ export default function Home() {
                 </p>
               </div>
               {/* time and weather icon */}
+              <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between pr-3">
+                {data?.list.map((d, i)=>
+                  <div 
+                    key={i}
+                    className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"  
+                  >
+                    <p className="whitespace-nowrap">
+                      {format(parseISO(d.dt_txt), "h:mm a")}
+                    </p>
+                  </div>
+                )}
+              </div>
             </Container>
           </div>
         </section>
