@@ -94,13 +94,14 @@ export default function Home() {
       <Navbar />
       <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4">
         {/* Today data */}
-        <section>
-          <div>
+        <section className="space-y-4">
+          <div className="space-y-2">
             <h2 className="flex gap-1 text-2xl items-end">
               <p>{format(parseISO(firstData?.dt_txt ??''), "EEEE")} </p>
               <p className="text-lg">({format(parseISO(firstData?.dt_txt ??''), "dd.MM.yyyy")})</p>
             </h2>
             <Container className="gap-10 px-6 items-center">
+              {/* temperature */}
               <div className="flex flex-col px-4">
                 <span className="text-5xl">
                   {convertKelvinToFahrenheit(firstData?.main.temp ?? 0)}°
@@ -121,6 +122,7 @@ export default function Home() {
                   </span>
                 </p>
               </div>
+              {/* time and weather icon */}
             </Container>
           </div>
         </section>
