@@ -76,10 +76,6 @@ export default function Home() {
 
       return data;
     }
-    // queryFn: () =>
-    //   fetch('http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56').then((res) =>
-    //     res.json(),
-    //  ),
   );
 
   const firstData = data?.list[0]
