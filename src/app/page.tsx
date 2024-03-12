@@ -13,6 +13,9 @@ import WeatherDetail from "@/components/WeatherDetail";
 import { convertMetersToMiles } from "@/utils/convertMetersToMiles";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import ForecastWeatherDetail from "@/components/ForecastWeatherDetail";
+import { useAtom } from "jotai";
+import { placeAtom } from "./atom";
+import { useEffect } from "react";
 
 // http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56
 
@@ -75,14 +78,21 @@ type CityInfo = {
 
 
 export default function Home() {
-  const { isLoading, error, data } = useQuery<WeatherData>(
+  const [place, setPlace] = useAtom(placeAtom)
+  
+  const { isLoading, error, data, refetch } = useQuery<WeatherData>(
     "repoData", 
     async () => {
-      const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=cincinnati&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`);  // /data/2.5/forecast?q=${place}&appid=
+      const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`);  // /data/2.5/forecast?q=${place}&appid=
 
       return data;
     }
   );
+
+  useEffect(() => {
+    refetch();
+  }, [place, refetch]);
+  
 
   const firstData = data?.list[0]
 
